@@ -22,7 +22,7 @@
 
 ### Usando el Ejecutable (Recomendado)
 
-1. Descarga el último release desde [Releases](https://github.com/[tu-usuario]/hardrivesound/releases)
+1. Descarga el último release desde [Releases](https://github.com/erickson558/hardrivesound/releases)
 2. Extrae el contenido del ZIP
 3. Ejecuta `HardDriveSoundSimulator.exe`
 4. ¡Disfruta de los sonidos nostálgicos!
@@ -38,7 +38,7 @@
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/[tu-usuario]/hardrivesound.git
+git clone https://github.com/erickson558/hardrivesound.git
 cd hardrivesound
 
 # Crear entorno virtual (recomendado)
@@ -205,7 +205,7 @@ Este proyecto está licenciado bajo la Apache License 2.0 - ver el archivo [LICE
 
 ## 🐛 Reportar Problemas
 
-Si encuentras un bug o tienes una sugerencia, por favor abre un [Issue](https://github.com/[tu-usuario]/hardrivesound/issues).
+Si encuentras un bug o tienes una sugerencia, por favor abre un [Issue](https://github.com/erickson558/hardrivesound/issues).
 
 ## 📈 Roadmap
 
