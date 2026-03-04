@@ -5,6 +5,16 @@ Todos los cambios notables del proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Versionamiento Semántico](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2026-03-03
+
+### 🔧 Cambiado
+- Corrección de sintaxis del workflow `.github/workflows/release.yml`
+- Compilación ajustada para generar `hardrive.exe` en la carpeta raíz del proyecto
+- Pipeline de release alineado para push a `main`
+
+### 📚 Documentación
+- README y configuración actualizados a versión `3.0.1`
+
 ## [3.0.0] - 2024-XX-XX
 
 ### 🎉 Rediseño Completo - Separación Backend/Frontend

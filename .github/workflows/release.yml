@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - '.gitignore'
 
 permissions:
   contents: write
@@ -57,7 +53,7 @@ jobs:
     - name: Build executable
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
       run: |
-        pyinstaller --onefile --windowed --name "HardDriveSoundSimulator" --icon "hardrive.ico" --add-data "config.json;." --add-data "sounds;sounds" --add-data "*.wav;." --hidden-import "pystray._win32" --hidden-import "pystray._util" --hidden-import "PIL._imaging" --hidden-import "psutil" --clean main.py
+        pyinstaller --onefile --windowed --name "hardrive" --icon "hardrive.ico" --distpath "." --add-data "config.json;." --add-data "sounds;sounds" --add-data "*.wav;." --hidden-import "pystray._win32" --hidden-import "pystray._util" --hidden-import "PIL._imaging" --hidden-import "psutil" --clean main.py
     
     - name: Create distribution package
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
@@ -69,7 +65,7 @@ jobs:
         New-Item -ItemType Directory -Force -Path "release"
         
         # Copiar ejecutable
-        Copy-Item "dist\HardDriveSoundSimulator.exe" "release\"
+        Copy-Item "hardrive.exe" "release\"
         
         # Copiar archivos necesarios
         Copy-Item "config.json" "release\"
@@ -79,59 +75,43 @@ jobs:
         Copy-Item "*.wav" "release\" -ErrorAction SilentlyContinue
         
         # Crear archivo ZIP
-        Compress-Archive -Path "release\*" -DestinationPath "HardDriveSoundSimulator-v$version-Windows.zip"
+        Compress-Archive -Path "release\*" -DestinationPath "hardrivesound-v$version-Windows.zip" -Force
     
     - name: Generate changelog
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
-      id: changelog
       shell: pwsh
       run: |
         $version = "${{ steps.get_version.outputs.VERSION }}"
-        
-        # Obtener último tag
         $lastTag = git describe --tags --abbrev=0 2>$null
-        
+
         if ($lastTag) {
           $log = git log "$lastTag..HEAD" --pretty=format:"- %s (%h)" --no-merges
         } else {
           $log = git log --pretty=format:"- %s (%h)" --no-merges -10
         }
-        
-        $changelog = @"
-## 🚀 Cambios en v$version
 
-$log
-
-## 📦 Instalación
-
-1. Descarga el archivo ZIP
-2. Extrae el contenido
-3. Ejecuta HardDriveSoundSimulator.exe
-4. ¡Disfruta!
-
-## 📋 Requisitos del Sistema
-
-- Windows 10/11
-- 50 MB RAM
-- 20 MB espacio en disco
-"@
-        
-        # Guardar changelog
-        $changelog | Out-File -FilePath "CHANGELOG.txt" -Encoding UTF8
-        
-        # Convertir a una línea para GitHub Output
-        $changelogEscaped = $changelog -replace "`r`n", "%0A" -replace "`n", "%0A"
-        echo "CHANGELOG=$changelogEscaped" >> $env:GITHUB_OUTPUT
+        $content = @(
+          "## Cambios en v$version",
+          "",
+          $log,
+          "",
+          "## Instalación",
+          "",
+          "1. Descarga el archivo ZIP",
+          "2. Extrae el contenido",
+          "3. Ejecuta hardrive.exe"
+        )
+        $content | Out-File -FilePath "CHANGELOG.txt" -Encoding utf8
     
     - name: Create Release
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
       uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ steps.get_version.outputs.VERSION }}
-        name: Hard Drive Sound Simulator v${{ steps.get_version.outputs.VERSION }}
+        name: hardrivesound v${{ steps.get_version.outputs.VERSION }}
         body_path: CHANGELOG.txt
         files: |
-          HardDriveSoundSimulator-v${{ steps.get_version.outputs.VERSION }}-Windows.zip
+          hardrivesound-v${{ steps.get_version.outputs.VERSION }}-Windows.zip
         draft: false
         prerelease: false
       env:
@@ -141,6 +121,6 @@ $log
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
       uses: actions/upload-artifact@v4
       with:
-        name: HardDriveSoundSimulator-v${{ steps.get_version.outputs.VERSION }}
+        name: hardrivesound-v${{ steps.get_version.outputs.VERSION }}
         path: release/
         retention-days: 30

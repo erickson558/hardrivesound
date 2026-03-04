@@ -1,16 +1,18 @@
 @echo off
 chcp 65001 >nul
-echo 🚀 Compilando Hard Drive Sound Simulator v3.0.0...
+echo 🚀 Compilando Hard Drive Sound Simulator v3.0.1...
 echo.
 
 REM Limpiar builds anteriores
 if exist "build" rmdir /s /q "build"
 if exist "dist" rmdir /s /q "dist"
+if exist "hardrive.exe" del /f /q "hardrive.exe"
 
 echo 📦 Empaquetando con PyInstaller...
 pyinstaller --onefile ^
     --windowed ^
-    --name "HardDriveSoundSimulator" ^
+    --name "hardrive" ^
+    --distpath "." ^
     --icon "hardrive.ico" ^
     --add-data "config.json;." ^
     --add-data "sounds;sounds" ^
@@ -24,7 +26,7 @@ pyinstaller --onefile ^
 
 echo.
 echo ✅ ¡Compilación completada!
-echo 📂 Ejecutable: dist\HardDriveSoundSimulator.exe
+echo 📂 Ejecutable: .\hardrive.exe
 echo.
 echo 🎯 El .exe incluye:
 echo    • La aplicación completa

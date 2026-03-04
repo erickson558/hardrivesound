@@ -6,7 +6,7 @@
 
 **Simulador de Sonido de Disco Duro Vintage** - Una aplicación de escritorio que reproduce sonidos de discos duros antiguos basándose en la actividad real del disco en tiempo real.
 
-![Version](https://img.shields.io/badge/version-3.0.0-green.svg)
+![Version](https://img.shields.io/badge/version-3.0.1-green.svg)
 
 ## 📋 Características
 
@@ -24,7 +24,7 @@
 
 1. Descarga el último release desde [Releases](https://github.com/erickson558/hardrivesound/releases)
 2. Extrae el contenido del ZIP
-3. Ejecuta `HardDriveSoundSimulator.exe`
+3. Ejecuta `hardrive.exe`
 4. ¡Disfruta de los sonidos nostálgicos!
 
 ### Desde el Código Fuente
@@ -134,7 +134,7 @@ pip install pyinstaller
 # Ejecutar script de compilación
 build.bat
 
-# El ejecutable estará en dist/HardDriveSoundSimulator.exe
+# El ejecutable estará en ./hardrive.exe
 ```
 
 ## 📝 Configuración
@@ -143,7 +143,7 @@ La configuración se guarda en `config.json` y se carga automáticamente al inic
 
 ```json
 {
-  "version": "3.0.0",
+  "version": "3.0.1",
   "enabled": true,
   "global_delay": 1.0,
   "icon_behavior": "write_priority",
