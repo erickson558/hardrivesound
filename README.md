@@ -6,14 +6,19 @@
 
 **Simulador de Sonido de Disco Duro Vintage** - Una aplicación de escritorio que reproduce sonidos de discos duros antiguos basándose en la actividad real del disco en tiempo real.
 
-![Version](https://img.shields.io/badge/version-3.0.1-green.svg)
+![Version](https://img.shields.io/badge/version-3.3.0-green.svg)
 
 ## 📋 Características
 
 - 🔍 **Monitorización en Tiempo Real**: Detecta automáticamente actividad de lectura/escritura del disco
 - 🔊 **Sonidos Vintage Auténticos**: Reproduce sonidos característicos de discos duros antiguos
+- 🛠️ **Fallback Sintético**: Si faltan WAV de ejemplo, genera sonidos mecánicos automáticamente
+- 🪟 **Panel GUI de Configuración**: Ajusta opciones desde una ventana visual abierta desde el tray
+- 🎚️ **Suavizado Configurable**: Control de fade de audio (Soft/Balanced/Aggressive)
 - 🎨 **4 Estilos de Iconos**: Modern, Classic, Simple y Retro
 - ⚙️ **Altamente Configurable**: Controla todos los aspectos desde el menú de la bandeja
+- 🌍 **Multi-idioma**: Interfaz disponible en Español e Inglés
+- 🍺 **Botón de Donación**: Enlace directo a "Cómprame una cerveza" vía PayPal
 - 💾 **Configuración Persistente**: Tus preferencias se guardan automáticamente
 - 🎯 **Ligero y Eficiente**: Consumo mínimo de recursos
 - 🪟 **Integración con Windows**: Se ejecuta en la bandeja del sistema
@@ -99,6 +104,7 @@ hardrivesound/
 │   ├── frontend/                # Interfaz de usuario
 │   │   ├── __init__.py
 │   │   ├── tray_interface.py    # Interfaz de bandeja
+│   │   ├── settings_window.py   # Panel GUI de configuración
 │   │   └── icon_generator.py    # Generador de iconos
 │   │
 │   ├── models/                  # Modelos de datos
@@ -108,6 +114,7 @@ hardrivesound/
 │   └── utils/                   # Utilidades
 │       ├── __init__.py
 │       ├── constants.py         # Constantes globales
+│       ├── i18n.py              # Traducciones de interfaz
 │       └── logger.py            # Sistema de logging
 │
 ├── sounds/                      # Archivos de audio
@@ -143,9 +150,11 @@ La configuración se guarda en `config.json` y se carga automáticamente al inic
 
 ```json
 {
-  "version": "3.0.1",
+  "version": "3.3.0",
   "enabled": true,
   "global_delay": 1.0,
+  "language": "es",
+  "hdd_fade_profile": "balanced",
   "icon_behavior": "write_priority",
   "sound_triggers": {
     "read": false,

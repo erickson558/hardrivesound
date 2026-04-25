@@ -30,6 +30,11 @@ class AppConfig:
     version: str = __version__
     enabled: bool = True
     global_delay: float = 1.0
+    language: str = 'es'
+    hdd_fade_profile: str = 'balanced'
+    # Duracion del fade coseno aplicado a los archivos WAV reales (ms).
+    fade_in_ms: float = 20.0
+    fade_out_ms: float = 40.0
     method: str = 'winsound'
     minimize_to_tray: bool = True
     icon_behavior: str = 'write_priority'
@@ -38,12 +43,36 @@ class AppConfig:
     
     def __post_init__(self):
         """Inicializar configuración de sonidos por defecto"""
+        self._normalize_language()
+        self._normalize_fade_profile()
+        self._normalize_sound_config()
+
+    def _normalize_language(self) -> None:
+        """Forzar idioma válido para evitar estados inválidos en UI."""
+        if self.language not in {'es', 'en'}:
+            self.language = 'es'
+
+    def _normalize_fade_profile(self) -> None:
+        """Forzar perfil de fade válido."""
+        if self.hdd_fade_profile not in {'soft', 'balanced', 'aggressive'}:
+            self.hdd_fade_profile = 'balanced'
+
+    def _normalize_sound_config(self) -> None:
+        """Completar claves faltantes para mantener compatibilidad con configs antiguas."""
+        defaults = {
+            'read': 'hdd_seek.wav',
+            'write': 'hdd_seek.wav',
+            'both': 'hdd_spin.wav'
+        }
+
         if not self.sounds:
-            self.sounds = {
-                'read': SoundConfig(enabled=True, file='hdd_seek.wav'),
-                'write': SoundConfig(enabled=True, file='hdd_click.wav'),
-                'both': SoundConfig(enabled=True, file='hdd_spin.wav')
-            }
+            self.sounds = {}
+
+        for sound_type, file_name in defaults.items():
+            if sound_type not in self.sounds:
+                self.sounds[sound_type] = SoundConfig(enabled=True, file=file_name)
+            elif not self.sounds[sound_type].file:
+                self.sounds[sound_type].file = file_name
     
     def to_dict(self) -> dict:
         """Convertir configuración a diccionario"""
@@ -51,6 +80,11 @@ class AppConfig:
             'version': self.version,
             'enabled': self.enabled,
             'global_delay': self.global_delay,
+            'language': self.language,
+            'hdd_fade_profile': self.hdd_fade_profile,
+            # Valores de fade guardados en JSON para persistencia entre sesiones
+            'fade_in_ms': self.fade_in_ms,
+            'fade_out_ms': self.fade_out_ms,
             'method': self.method,
             'minimize_to_tray': self.minimize_to_tray,
             'icon_behavior': self.icon_behavior,
@@ -90,8 +124,12 @@ class AppConfig:
         
         return cls(
             version=data.get('version', __version__),
+            fade_in_ms=data.get('fade_in_ms', 20.0),
+            fade_out_ms=data.get('fade_out_ms', 40.0),
             enabled=data.get('enabled', True),
             global_delay=data.get('global_delay', 1.0),
+            language=data.get('language', 'es'),
+            hdd_fade_profile=data.get('hdd_fade_profile', 'balanced'),
             method=data.get('method', 'winsound'),
             minimize_to_tray=data.get('minimize_to_tray', True),
             icon_behavior=data.get('icon_behavior', 'write_priority'),

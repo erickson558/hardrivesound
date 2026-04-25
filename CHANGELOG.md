@@ -5,6 +5,48 @@ Todos los cambios notables del proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Versionamiento Semántico](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2026-04-25
+
+### ✨ Añadido
+- Apertura del panel de configuración con doble click sobre el icono de bandeja.
+- Control de suavizado de audio en GUI: `soft`, `balanced`, `aggressive`.
+
+### 🐛 Corregido
+- Reducción de sensación de bucle fijo: prioridad de variantes sobre sonido base.
+- Suavizado de bordes en síntesis con perfil configurable para minimizar cortes percibidos.
+
+### 🎨 Mejorado
+- Rediseño visual del panel GUI (jerarquía, secciones y legibilidad).
+
+### 🔧 Cambiado
+- Versionado actualizado a `3.3.0` en código, configuración, README y script de build.
+
+## [3.2.0] - 2026-04-25
+
+### ✨ Añadido
+- Panel GUI de configuración accesible desde el menú de bandeja.
+- Opción de abrir configuración visual sin perder el comportamiento de inicio en tray.
+
+### 🐛 Corregido
+- Audio entrecortado en actividad intensa: reproducción serializada en cola para evitar solapamientos y cortes.
+
+### 🔧 Cambiado
+- Versionado actualizado a `3.2.0` en código, configuración, README y script de build.
+
+## [3.1.0] - 2026-04-25
+
+### ✨ Añadido
+- Soporte multi-idioma (Español/Inglés) para menú de bandeja.
+- Opción de menú "Cómprame una cerveza" con enlace oficial de donaciones PayPal.
+- Generación automática de sonidos HDD mecánicos sintéticos cuando faltan archivos WAV.
+
+### 🐛 Corregido
+- Cierre de aplicación mejorado: se elimina salida forzada con `os._exit(0)` y se evita doble cierre.
+- Compatibilidad retroactiva de `config.json`: normalización automática de claves de sonidos e idioma.
+
+### 🔧 Cambiado
+- Versionado actualizado a `3.1.0` en código, configuración, README y script de build.
+
 ## [3.0.1] - 2026-03-03
 
 ### 🔧 Cambiado

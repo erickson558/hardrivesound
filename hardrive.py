@@ -93,8 +93,8 @@ class HardDriveSimulator:
             # Información de versión
             self.app_info = {
                 'name': 'Simulador Disco Duro Vintage',
-                'version': '2.1.1',
-                'author': 'Erickson',
+                'version': '3.3.0',
+                'author': 'Synyster Rick',
                 'description': 'Simula sonidos de disco duro antiguo con monitorización en tiempo real',
                 'year': '2024'
             }

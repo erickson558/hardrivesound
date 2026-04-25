@@ -160,3 +160,19 @@ class ConfigManager:
         self.config.icon_behavior = ICON_BEHAVIORS[new_index]
         self.save_config()
         return self.config.icon_behavior
+
+    def change_language(self) -> str:
+        """
+        Cambiar idioma (cicla entre opciones).
+
+        Returns:
+            Nuevo idioma
+        """
+        from src.utils.constants import AVAILABLE_LANGUAGES
+
+        current = self.config.language
+        current_index = AVAILABLE_LANGUAGES.index(current) if current in AVAILABLE_LANGUAGES else 0
+        new_index = (current_index + 1) % len(AVAILABLE_LANGUAGES)
+        self.config.language = AVAILABLE_LANGUAGES[new_index]
+        self.save_config()
+        return self.config.language

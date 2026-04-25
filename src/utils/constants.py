@@ -27,6 +27,12 @@ ICON_BEHAVIORS = ['write_priority', 'read_priority', 'both_green']
 # Delays disponibles
 AVAILABLE_DELAYS = [0.5, 1.0, 2.0, 3.0, 5.0]
 
+# Idiomas disponibles
+AVAILABLE_LANGUAGES = ['es', 'en']
+
+# Donaciones
+DONATION_URL = "https://www.paypal.com/donate/?hosted_button_id=ZABFRXC2P3JQN"
+
 # Colores de iconos
 ICON_COLOR_GREEN = "green"
 ICON_COLOR_RED = "red"

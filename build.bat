@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 >nul
-echo 🚀 Compilando Hard Drive Sound Simulator v3.0.1...
+echo 🚀 Compilando Hard Drive Sound Simulator v3.4.0...
 echo.
 
 REM Limpiar builds anteriores

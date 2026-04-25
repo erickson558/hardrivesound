@@ -14,6 +14,7 @@ from src.backend.config_manager import ConfigManager
 from src.backend.audio_engine import AudioEngine
 from src.backend.disk_monitor import DiskMonitor
 from src.frontend.tray_interface import TrayInterface
+from src.frontend.settings_window import SettingsWindow
 
 
 class HardDriveSimulator:
@@ -23,6 +24,7 @@ class HardDriveSimulator:
         """Inicializar el simulador"""
         try:
             logger.info(f"Inicializando {APP_NAME} v{APP_VERSION}...")
+            self._is_quitting = False
             
             # Determinar si está compilado
             self.is_compiled = getattr(sys, 'frozen', False)
@@ -42,6 +44,11 @@ class HardDriveSimulator:
             # Componente del frontend
             self.tray_interface = TrayInterface(self.is_compiled, self.base_dir)
             self.tray_interface.set_config(self.config)
+            self.settings_window = SettingsWindow(
+                self.config_manager,
+                self.disk_monitor,
+                self.tray_interface,
+            )
             
             # Conectar callbacks
             self._setup_callbacks()
@@ -87,6 +94,8 @@ class HardDriveSimulator:
         self.tray_interface.on_change_delay = self._handle_change_delay
         self.tray_interface.on_change_icon_behavior = self._handle_change_icon_behavior
         self.tray_interface.on_change_icon_style = self._handle_change_icon_style
+        self.tray_interface.on_change_language = self._handle_change_language
+        self.tray_interface.on_open_settings = self._handle_open_settings
         self.tray_interface.on_quit = self.quit
     
     def _on_disk_activity(self, activity_type: str) -> None:
@@ -141,6 +150,16 @@ class HardDriveSimulator:
     def _handle_change_icon_style(self, new_style: str) -> None:
         """Manejar cambio de estilo de icono"""
         logger.info(f"🖼️ Estilo de icono: {new_style}")
+
+    def _handle_change_language(self) -> None:
+        """Manejar cambio de idioma"""
+        new_language = self.config_manager.change_language()
+        self.tray_interface.set_language(new_language)
+        logger.info(f"🌍 Idioma: {new_language}")
+
+    def _handle_open_settings(self) -> None:
+        """Abrir panel GUI de configuración."""
+        self.settings_window.open_window()
     
     def start(self) -> None:
         """Iniciar la aplicación"""
@@ -166,17 +185,20 @@ class HardDriveSimulator:
     
     def quit(self) -> None:
         """Salir de la aplicación"""
+        if self._is_quitting:
+            return
+
+        self._is_quitting = True
         logger.info("⏹️ Cerrando aplicación...")
         
         try:
             self.disk_monitor.stop()
+            self.audio_engine.stop()
             self.config_manager.save_config()
             self.tray_interface.stop()
             logger.info("✅ Aplicación cerrada correctamente")
         except Exception as e:
             logger.error(f"❌ Error al cerrar: {e}")
-        
-        os._exit(0)
 
 
 def global_exception_handler(exc_type, exc_value, exc_traceback):
