@@ -53,7 +53,7 @@ jobs:
     - name: Build executable
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
       run: |
-        pyinstaller --onefile --windowed --name "hardrive" --icon "hardrive.ico" --distpath "." --add-data "config.json;." --add-data "sounds;sounds" --add-data "*.wav;." --hidden-import "pystray._win32" --hidden-import "pystray._util" --hidden-import "PIL._imaging" --hidden-import "psutil" --clean main.py
+        pyinstaller --onefile --windowed --name "hardrive" --icon "hardrive.ico" --distpath "." --add-data "config.json;." --add-data "*.wav;." --hidden-import "pystray._win32" --hidden-import "pystray._util" --hidden-import "PIL._imaging" --hidden-import "psutil" --clean main.py
     
     - name: Create distribution package
       if: steps.check_tag.outputs.TAG_EXISTS == 'false'
@@ -71,7 +71,9 @@ jobs:
         Copy-Item "config.json" "release\"
         Copy-Item "README.md" "release\"
         Copy-Item "LICENSE" "release\"
-        Copy-Item -Recurse "sounds" "release\"
+        if (Test-Path "sounds") {
+          Copy-Item -Recurse "sounds" "release\"
+        }
         Copy-Item "*.wav" "release\" -ErrorAction SilentlyContinue
         
         # Crear archivo ZIP
